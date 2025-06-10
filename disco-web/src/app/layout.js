@@ -1,5 +1,6 @@
 import { Bebas_Neue, Poppins } from "next/font/google";
 import "./globals.css";
+import SmoothScrollProvider from "@/lib/smoothScroll";
 
 const bebas = Bebas_Neue({
   variable: "--font-bebas",
@@ -27,7 +28,9 @@ export default function RootLayout({ children }) {
       <body
         className={`${bebas.variable} ${poppins.variable} antialiased`}
       >
+        <SmoothScrollProvider>
         {children}
+        </SmoothScrollProvider>
       </body>
     </html>
   );
