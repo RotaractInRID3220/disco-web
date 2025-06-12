@@ -22,8 +22,8 @@ const HomeFourth = () => {
                 playOnce={false}
             ></GlareHover>
         </div>
-        <div className='h-[500px] w-[400px] bg-blackD rounded-xl hover:scale-101 cursor-pointer'></div>
-        <div className='h-[500px] w-[400px] bg-blackD rounded-xl hover:scale-101 cursor-pointer'></div>
+        {/* <div className='h-[500px] w-[400px] bg-blackD rounded-xl hover:scale-101 cursor-pointer'></div>
+        <div className='h-[500px] w-[400px] bg-blackD rounded-xl hover:scale-101 cursor-pointer'></div> */}
       </div>
     </div>
   )
