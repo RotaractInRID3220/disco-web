@@ -19,7 +19,7 @@ const Landing = () => {
         <h1 className='font-poppins text-cranberry text-lg'>#RedefineService</h1>
         <h1 className='font-bebas text-cranberry text-[110px] leading-none tracking-wide mt-1'>ROTARACT IN RID 3220</h1>
         <p className='text-gray-700 text-center w-4/6 px-20 leading-5 text-[16px]'>Rotaract in RID 3220, covering Sri Lanka and the Maldives, is part of a global movement dedicated to empowering young leaders to serve their communities, grow professionally and drive sustainable change. With over 80 clubs and more than 3,500 members, it is a vibrant network of purpose-driven changemakers.</p>
-        <a href="" className='flex gap-2 border border-cranberry py-2 px-5 rounded-full mt-8 items-center text-cranberry cursor-pointer z-40 hover:bg-cranberry hover:text-white transition-all'><ChevronsDown size={19}/> Explore More <ChevronsDown size={19}/></a>
+        <a href="" onClick={e => {e.preventDefault();window.scrollBy({ top: window.innerHeight * 0.9, left: 0, behavior: 'smooth' });}} className='flex gap-2 border border-cranberry py-2 px-5 rounded-full mt-8 items-center text-cranberry cursor-pointer z-40 hover:bg-cranberry hover:text-white transition-all'><ChevronsDown size={19}/> Explore More <ChevronsDown size={19}/></a>
         <div className='grid grid-cols-6 gap-5 items-end -translate-y-28 mb-0'>
           <div className='flex flex-col gap-5'>
               <img src="/l1.svg" alt="" />
