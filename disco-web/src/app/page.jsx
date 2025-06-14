@@ -15,7 +15,7 @@ export default function Home() {
         <Navbar />
       </div>
       <div className="w-full ">
-        <div className="px-20">
+        <div className="lg:px-20 px-10">
           <Landing/>
           <section id="home-second">
             <HomeSecond/>

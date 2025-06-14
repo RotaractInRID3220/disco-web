@@ -3,9 +3,9 @@ import { InfiniteSliderBasic, InfiniteSliderBasic1, InfiniteSliderBasic2 } from 
 
 const HomeFifth = () => {
   return (
-    <div className='mt-30 flex flex-col items-center'>
-        <h1 className='font-bebas text-cranberry text-5xl tracking-wide'>Our Amazing Partners</h1>
-        <div className='w-full mt-10 flex flex-col items-center justify-center gap-10'>
+    <div className='lg:mt-30 mt-20 flex flex-col items-center'>
+        <h1 className='font-bebas text-cranberry lg:text-5xl text-4xl tracking-wide'>Our Amazing Partners</h1>
+        <div className='w-full mt-10 flex flex-col items-center justify-center lg:gap-10 gap-6'>
             <InfiniteSliderBasic/>
             <InfiniteSliderBasic1/>
             <InfiniteSliderBasic2/>

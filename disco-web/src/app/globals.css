@@ -154,3 +154,9 @@
   animation: gradient 10s linear infinite; /* Smooth movement */
 }
 
+html, body {
+  overscroll-behavior: none;
+  /* For older iOS Safari: */
+  overscroll-behavior-y: none;
+  touch-action: pan-x pan-y;
+}
