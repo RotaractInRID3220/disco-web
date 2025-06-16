@@ -51,7 +51,7 @@ const AboutThird = () => {
     <div className='mt-20 lg:px-20 px-8 mb-20 lg:mb-0' id='about3'>
       {/* <h1 className='text-5xl text-cranberry font-bebas tracking-wide'>Let's hear from our DRR's</h1> */}
       <div className='flex flex-col lg:flex-row items-center justify-center lg:gap-10 gap-5 lg:h-dvh ping-section bg-white' id='#Naz'>
-        <img src="/about/naz.svg" alt="" className='lg:w-2/6 w-2/3' />
+        <img src="/about/naz.png" alt="" className='lg:w-2/6 w-2/3' />
         <div className='lg:px-10 text-center lg:text-left' >
             <FaQuoteLeft className='lg:text-5xl text-3xl text-cranberry mb-5'/>
             <p className="lg:text-xl font-poppins leading-relaxed text-justify">Rotaract in RI District 3220 is a living, breathing movement — one that grows with its members and evolves with time. It is where young people come together to lead change, find purpose, and redefine what service truly means. This platform reflects that evolution — a space where stories are shared, innovations are born, and new opportunities are made accessible to all. As we embrace technology and creativity, we also hold onto what matters most: unity, impact, and people. In a world that needs both heart and action, Rotaractors continue to Redefine Service and Unite for Good. And that is the strength of our movement.</p>
@@ -61,7 +61,7 @@ const AboutThird = () => {
       </div>
 
       <div className='flex flex-col lg:flex-row items-center justify-center lg:gap-10 gap-5 lg:h-dvh ping-section bg-white mt-20 lg:mt-0' id='#Naz'>
-        <img src="/about/shanel.svg" alt="" className='lg:w-2/6 lg:hidden block w-2/3' />
+        <img src="/about/shanel.png" alt="" className='lg:w-2/6 lg:hidden block w-2/3' />
         <div className='lg:px-10 text-center lg:text-left' >
             <FaQuoteLeft className='lg:text-5xl text-3xl text-cranberry mb-5'/>
             <p className=" font-poppins leading-relaxed text-justify">
@@ -77,12 +77,12 @@ const AboutThird = () => {
             <h1 className="lg:text-4xl text-3xl text-cranberry font-bebas tracking-wide mt-8">Rtn. Rtr. PHF PP SHANEL MENDIS</h1>
             <h1 className="lg:text-2xl text-xl text-cranberry/70 font-bebas tracking-wide -mt-2">District Rotaract Representative 2024-25</h1>
         </div>
-        <img src="/about/shanel.svg" alt="" className='lg:w-2/6 lg:block hidden w-2/3' />
+        <img src="/about/shanel.png" alt="" className='lg:w-2/6 lg:block hidden w-2/3' />
 
       </div>
 
       <div className='flex flex-col lg:flex-row items-center justify-center lg:gap-10 gap-5 lg:h-dvh ping-section bg-white mt-20 lg:mt-0' id='#Naz'>
-        <img src="/about/jude.svg" alt="" className='lg:w-2/6 w-2/3' />
+        <img src="/about/jude.png" alt="" className='lg:w-2/6 w-2/3' />
         <div className='lg:px-10 text-center lg:text-left' >
             <FaQuoteLeft className='lg:text-5xl text-3xl text-cranberry mb-5'/>
             <p className=" font-poppins leading-relaxed text-justify">
