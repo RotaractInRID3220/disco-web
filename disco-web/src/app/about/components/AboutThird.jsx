@@ -10,6 +10,7 @@ gsap.registerPlugin(ScrollTrigger);
 const AboutThird = () => {
     
     useEffect(() => {
+      if (window.innerWidth > 768) {
         gsap.utils.toArray('.ping-section').forEach((section, i, arr) => {
             console.log(i)
             if (i === 2) {
@@ -39,15 +40,17 @@ const AboutThird = () => {
 
 
         });
+      }
     }, []);
 
 
 
+        
 
   return (
     <div className='mt-20 lg:px-20 px-8 mb-20 lg:mb-0' id='about3'>
       {/* <h1 className='text-5xl text-cranberry font-bebas tracking-wide'>Let's hear from our DRR's</h1> */}
-      <div className='flex flex-col lg:flex-row items-center justify-center lg:gap-10 gap-5 lg:h-dvh lg:ping-section bg-white' id='#Naz'>
+      <div className='flex flex-col lg:flex-row items-center justify-center lg:gap-10 gap-5 lg:h-dvh ping-section bg-white' id='#Naz'>
         <img src="/about/naz.svg" alt="" className='lg:w-2/6 w-2/3' />
         <div className='lg:px-10 text-center lg:text-left' >
             <FaQuoteLeft className='lg:text-5xl text-3xl text-cranberry mb-5'/>
@@ -57,7 +60,7 @@ const AboutThird = () => {
         </div>
       </div>
 
-      <div className='flex flex-col lg:flex-row items-center justify-center lg:gap-10 gap-5 lg:h-dvh lg:ping-section bg-white mt-20 lg:mt-0' id='#Naz'>
+      <div className='flex flex-col lg:flex-row items-center justify-center lg:gap-10 gap-5 lg:h-dvh ping-section bg-white mt-20 lg:mt-0' id='#Naz'>
         <img src="/about/shanel.svg" alt="" className='lg:w-2/6 w-2/3' />
         <div className='lg:px-10 text-center lg:text-left' >
             <FaQuoteLeft className='lg:text-5xl text-3xl text-cranberry mb-5'/>
@@ -76,7 +79,7 @@ const AboutThird = () => {
         </div>
       </div>
 
-      <div className='flex flex-col lg:flex-row items-center justify-center lg:gap-10 gap-5 lg:h-dvh lg:ping-section bg-white mt-20 lg:mt-0' id='#Naz'>
+      <div className='flex flex-col lg:flex-row items-center justify-center lg:gap-10 gap-5 lg:h-dvh ping-section bg-white mt-20 lg:mt-0' id='#Naz'>
         <img src="/about/jude.svg" alt="" className='lg:w-2/6 w-2/3' />
         <div className='lg:px-10 text-center lg:text-left' >
             <FaQuoteLeft className='lg:text-5xl text-3xl text-cranberry mb-5'/>
