@@ -1,5 +1,6 @@
 'use client'
 import { CircleArrowOutUpRight } from 'lucide-react'
+import Link from 'next/link';
 import React, { useState } from 'react'
 import { RiMenu4Fill, RiCloseCircleLine } from "react-icons/ri";
 
@@ -11,8 +12,8 @@ const Navbar = () => {
       <div className='lg:px-20 py-6 items-center lg:flex hidden justify-between bg-white/80 backdrop-blur-sm'>
       <a href="/"><img src="/Logo.png" className='w-48' alt="" /></a>
       <div className='flex items-center gap-15 font-poppins text-gray-700'>
-        <a href="" className='hover:text-cranberry border-b-2 border-transparent hover:border-cranberry'>home</a>
-        <a href="" className='hover:text-cranberry border-b-2 border-transparent hover:border-cranberry'>about us</a>
+        <Link href="/"  className='hover:text-cranberry border-b-2 border-transparent hover:border-cranberry'>home</Link>
+        <Link href="/about" className='hover:text-cranberry border-b-2 border-transparent hover:border-cranberry'>about us</Link>
         <a href="" className='hover:text-cranberry border-b-2 border-transparent hover:border-cranberry'>district portal</a>
         <a href="" className='hover:text-cranberry border-b-2 border-transparent hover:border-cranberry'>events</a>
         <a href="" className='hover:text-cranberry border-b-2 border-transparent hover:border-cranberry'>contact us</a>
@@ -27,8 +28,8 @@ const Navbar = () => {
         <RiCloseCircleLine className="text-2xl text-white cursor-pointer absolute top-7 right-7" onClick={() => {setMenuOpen(false)}}/>
 
       <div className='flex flex-col justify-center items-center gap-15 font-poppins text-white text-lg'>
-        <a href="" >home</a>
-        <a href="" >about us</a>
+        <Link href="/" >home</Link>
+        <Link href="/about" >about us</Link>
         <a href="" >district portal</a>
         <a href="" >events</a>
         <a href="" >contact us</a>
