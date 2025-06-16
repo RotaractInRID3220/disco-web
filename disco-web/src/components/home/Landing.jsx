@@ -43,21 +43,21 @@ const Landing = () => {
 
         <div className='flex lg:hidden mt-5 flex-col gap-5 items-end mb-0'>
           <div className="grid grid-cols-2 gap-5">
-            <img src="/l3.svg" className='col-span-2' alt="" />
+            <img src="/i3.png" className='col-span-2' alt="" />
 
             <div className='flex flex-col gap-5'>
               <div className='py-4 border-2 border-blackD rounded-2xl max-h-24'>
                   <CountUp to={85} from={20} direction="up" delay={0} duration={2} className="text-5xl font-bebas text-blackD" />
                   <h1 className='text-blackD text-2xl -mt-3'>clubs</h1>
               </div>
-              <img src="/l1.svg" alt="" />
+              <img src="/i1.png" alt="" />
             </div>
             <div className='flex flex-col gap-5'>
               <div className='py-4 border-2 border-blackD rounded-2xl max-h-24'>
                   <CountUp to={2850} from={2000} direction="up" delay={0} duration={2} className="text-5xl font-bebas text-blackD" />
                   <h1 className='text-blackD text-2xl -mt-3'>rotaractors</h1>
               </div>
-              <img src="/l2.svg" alt="" />
+              <img src="/i2.png" alt="" />
             </div>
           </div>
         </div>
