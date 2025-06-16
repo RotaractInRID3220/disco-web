@@ -23,17 +23,17 @@ const Landing = () => {
         
         <div className='lg:grid hidden grid-cols-6 gap-5 items-end -translate-y-28 mb-0'>
           <div className='flex flex-col gap-5'>
-              <img src="/l1.svg" alt="" />
+              <img src="/l1.svg" alt="" loading="lazy"/>
               <div className='py-4 border-2 border-blackD rounded-2xl max-h-32'>
                   <CountUp to={85} from={20} direction="up" delay={0} duration={2} className="text-7xl font-bebas text-blackD" />
                   <h1 className='text-blackD text-3xl -mt-3'>clubs</h1>
               </div>
           </div>
-          <img src="/l4.svg" alt="" />
-          <img src="/l3.svg" className='col-span-2' alt="" />
-          <img src="/l5.svg" alt="" />
+          <img src="/l4.svg" alt="" loading="lazy"/>
+          <img src="/l3.svg" className='col-span-2' alt="" loading="lazy"/>
+          <img src="/l5.svg" alt="" loading="lazy"/>
           <div className='flex flex-col gap-5'>
-              <img src="/l2.svg" alt="" />
+              <img src="/l2.svg" alt="" loading="lazy"/>
               <div className='py-4 border-2 border-blackD rounded-2xl max-h-32'>
                   <CountUp to={2850} from={2000} direction="up" delay={0} duration={2} className="text-7xl font-bebas text-blackD" />
                   <h1 className='text-blackD text-2xl -mt-3'>rotaractors</h1>
