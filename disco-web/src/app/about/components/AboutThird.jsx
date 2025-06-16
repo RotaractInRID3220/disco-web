@@ -61,7 +61,7 @@ const AboutThird = () => {
       </div>
 
       <div className='flex flex-col lg:flex-row items-center justify-center lg:gap-10 gap-5 lg:h-dvh ping-section bg-white mt-20 lg:mt-0' id='#Naz'>
-        <img src="/about/shanel.svg" alt="" className='lg:w-2/6 w-2/3' />
+        <img src="/about/shanel.svg" alt="" className='lg:w-2/6 lg:hidden block w-2/3' />
         <div className='lg:px-10 text-center lg:text-left' >
             <FaQuoteLeft className='lg:text-5xl text-3xl text-cranberry mb-5'/>
             <p className=" font-poppins leading-relaxed text-justify">
@@ -77,6 +77,8 @@ const AboutThird = () => {
             <h1 className="lg:text-4xl text-3xl text-cranberry font-bebas tracking-wide mt-8">Rtn. Rtr. PHF PP SHANEL MENDIS</h1>
             <h1 className="lg:text-2xl text-xl text-cranberry/70 font-bebas tracking-wide -mt-2">District Rotaract Representative 2024-25</h1>
         </div>
+        <img src="/about/shanel.svg" alt="" className='lg:w-2/6 lg:block hidden w-2/3' />
+
       </div>
 
       <div className='flex flex-col lg:flex-row items-center justify-center lg:gap-10 gap-5 lg:h-dvh ping-section bg-white mt-20 lg:mt-0' id='#Naz'>
