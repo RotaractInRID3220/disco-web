@@ -2,6 +2,8 @@ import { Bebas_Neue, Poppins } from "next/font/google";
 import "./globals.css";
 import SmoothScrollProvider from "@/lib/smoothScroll";
 import { Analytics } from "@vercel/analytics/next"
+import ChatBot from "@/components/ui/ChatBot";
+import BotButton from "@/components/ui/BotButton";
 
 
 const bebas = Bebas_Neue({
@@ -32,7 +34,14 @@ export default function RootLayout({ children }) {
       >
         <Analytics />
         <SmoothScrollProvider>
+        <div>
+          <BotButton/>
+        </div>
+        <div className="z-60 fixed right-0 top-0">
+          <ChatBot/>
+        </div>
         {children}
+
         </SmoothScrollProvider>
       </body>
     </html>
