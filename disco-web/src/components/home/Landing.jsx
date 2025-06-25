@@ -47,14 +47,14 @@ const Landing = () => {
 
             <div className='flex flex-col gap-5'>
               <div className='py-4 border-2 border-blackD rounded-2xl max-h-24'>
-                  <CountUp to={85} from={20} direction="up" delay={0} duration={2} className="text-5xl font-bebas text-blackD" />
+                  <CountUp to={88} from={20} direction="up" delay={0} duration={2} className="text-5xl font-bebas text-blackD" />
                   <h1 className='text-blackD text-2xl -mt-3'>clubs</h1>
               </div>
               <img src="/i1.png" alt="" />
             </div>
             <div className='flex flex-col gap-5'>
               <div className='py-4 border-2 border-blackD rounded-2xl max-h-24'>
-                  <CountUp to={2850} from={2000} direction="up" delay={0} duration={2} className="text-5xl font-bebas text-blackD" />
+                  <CountUp to={4180} from={2500} direction="up" delay={0} duration={2} className="text-5xl font-bebas text-blackD" />
                   <h1 className='text-blackD text-2xl -mt-3'>rotaractors</h1>
               </div>
               <img src="/i2.png" alt="" />
