@@ -149,9 +149,30 @@
   }
 }
 
+@keyframes rotateB {
+  0% {
+    transform: rotate(5deg);
+  }
+  50% {
+    transform: rotate(-10deg);
+  }
+  100% {
+    transform: rotate(5deg);
+  }
+
+}
+
 .animate-gradient {
   background-size: 200% 100%; /* Keep the size fixed */
   animation: gradient 10s linear infinite; /* Smooth movement */
+}
+
+.animate-rotateB {
+  animation: rotateB 1s ease-in-out infinite;
+}
+
+#botButton:hover {
+  animation: rotateB 1s ease-in-out infinite;
 }
 
 html, body {
@@ -159,4 +180,8 @@ html, body {
   /* For older iOS Safari: */
   overscroll-behavior-y: none;
   touch-action: pan-x pan-y;
+}
+
+.chatbot-scroll-area {
+  overscroll-behavior: contain;
 }
