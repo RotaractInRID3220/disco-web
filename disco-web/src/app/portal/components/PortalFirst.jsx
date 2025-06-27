@@ -7,10 +7,10 @@ const PortalFirst = () => {
         <h1 className="text-5xl text-cranberry font-bebas tracking-wide">Admin Docs</h1>
         <p className="mt-4">Essential administrative documents for Rotaract clubs, including policies, code of conduct, constitution, and recommended bylaws.</p>
         <div className='grid lg:grid-cols-2 gap-2 mt-5 text-sm text-cranberry'>
-            <a href="#" className="border rounded-lg border-gray-300 px-5 py-3 hover:bg-cranberry hover:text-white hover:border-cranberry transition-all ">Rotaract District Administrative Policies</a>
-            <a href="#" className="border rounded-lg border-gray-300 px-5 py-3 hover:bg-cranberry hover:text-white hover:border-cranberry transition-all ">Rotaract Code of Conduct</a>
-            <a href="#" className="border rounded-lg border-gray-300 px-5 py-3 hover:bg-cranberry hover:text-white hover:border-cranberry transition-all ">Standard Rotaract Club Constitution</a>
-            <a href="#" className="border rounded-lg border-gray-300 px-5 py-3 hover:bg-cranberry hover:text-white hover:border-cranberry transition-all ">Recommended club By Laws</a>
+            <a href="https://drive.google.com/file/d/1gYOickFspNKwMf_VTxz9V4RO9lD2pxlQ/view?usp=drive_link" className="border rounded-lg border-gray-300 px-5 py-3 hover:bg-cranberry hover:text-white hover:border-cranberry transition-all ">Rotaract District Administrative Policies</a>
+            <a href="https://drive.google.com/file/d/1fleF2RDd4kbH4VK8KtCrhkkfH374-Ene/view?usp=drive_link" className="border rounded-lg border-gray-300 px-5 py-3 hover:bg-cranberry hover:text-white hover:border-cranberry transition-all ">Rotaract Code of Conduct</a>
+            <a href="https://drive.google.com/file/d/1wyk7QUTxVTDMYxBBGg7FZad3GUCQ-orn/view?usp=drive_link" className="border rounded-lg border-gray-300 px-5 py-3 hover:bg-cranberry hover:text-white hover:border-cranberry transition-all ">Standard Rotaract Club Constitution</a>
+            <a href="https://drive.google.com/file/d/1lNRUcJsJ592VsSMYc2R4trztoVQS6R7C/view?usp=drive_link" className="border rounded-lg border-gray-300 px-5 py-3 hover:bg-cranberry hover:text-white hover:border-cranberry transition-all ">Recommended club By Laws</a>
         </div>
       </div>
 
@@ -45,11 +45,11 @@ const PortalFirst = () => {
         <h1 className="text-5xl text-cranberry font-bebas tracking-wide">Guidelines and Planning Docs</h1>
         <p className="mt-4">All planning resources in one place: handbooks, citation criteria, year plans, and district protocols.</p>
         <div className='grid lg:grid-cols-2 gap-2 mt-5 text-sm text-cranberry'>
-            <a href="#" className="border rounded-lg border-gray-300 px-5 py-3 hover:bg-cranberry hover:text-white hover:border-cranberry transition-all ">Rotaract District Handbook</a>
-            <a href="#" className="border rounded-lg border-gray-300 px-5 py-3 hover:bg-cranberry hover:text-white hover:border-cranberry transition-all ">Rotaract District Citations</a>
-            <a href="#" className="border rounded-lg border-gray-300 px-5 py-3 hover:bg-cranberry hover:text-white hover:border-cranberry transition-all ">District Year plan</a>
-            <a href="#" className="border rounded-lg border-gray-300 px-5 py-3 hover:bg-cranberry hover:text-white hover:border-cranberry transition-all ">Transition Meeting Protocol</a>
-            <a href="#" className="border rounded-lg border-gray-300 px-5 py-3 hover:bg-cranberry hover:text-white hover:border-cranberry transition-all ">Installation Ceremony Protocol</a>
+            <a href="https://drive.google.com/drive/folders/1wpXWyfJ7j0-p7x5A8oCQSmn7D5d6ZKTg?usp=drive_link" className="border rounded-lg border-gray-300 px-5 py-3 hover:bg-cranberry hover:text-white hover:border-cranberry transition-all ">Rotaract District Handbook</a>
+            <a href="https://drive.google.com/drive/folders/1vzJKSU75_lvrBo12LoswMRKGWwhviKr5?usp=drive_link" className="border rounded-lg border-gray-300 px-5 py-3 hover:bg-cranberry hover:text-white hover:border-cranberry transition-all ">Rotaract District Citations</a>
+            {/* <a href="#" className="border rounded-lg border-gray-300 px-5 py-3 hover:bg-cranberry hover:text-white hover:border-cranberry transition-all ">District Year plan</a> */}
+            <a href="https://drive.google.com/drive/folders/121dNGqDshUtom0_1wzhcmuF0l7oR_4BW?usp=drive_link" className="border rounded-lg border-gray-300 px-5 py-3 hover:bg-cranberry hover:text-white hover:border-cranberry transition-all ">Transition Meeting Protocol</a>
+            <a href="https://drive.google.com/drive/folders/1vQcuQ2aDOGPXE7rFbQ1QZMCjMk5WBaCX?usp=drive_link" className="border rounded-lg border-gray-300 px-5 py-3 hover:bg-cranberry hover:text-white hover:border-cranberry transition-all ">Installation Ceremony Protocol</a>
         </div>
       </div>
 

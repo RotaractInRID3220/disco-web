@@ -35,7 +35,7 @@ const Landing = () => {
           <div className='flex flex-col gap-5'>
               <img src="/i2.png" alt="" loading="lazy"/>
               <div className='py-4 border-2 border-blackD rounded-2xl max-h-32'>
-                  <CountUp to={4180} from={2500} direction="up" delay={0} duration={2} className="text-7xl font-bebas text-blackD" />
+                  <CountUp to={4130} from={2500} direction="up" delay={0} duration={2} className="text-7xl font-bebas text-blackD" />
                   <h1 className='text-blackD text-2xl -mt-3'>rotaractors</h1>
               </div>
           </div>
@@ -54,7 +54,7 @@ const Landing = () => {
             </div>
             <div className='flex flex-col gap-5'>
               <div className='py-4 border-2 border-blackD rounded-2xl max-h-24'>
-                  <CountUp to={4180} from={2500} direction="up" delay={0} duration={2} className="text-5xl font-bebas text-blackD" />
+                  <CountUp to={4130} from={2500} direction="up" delay={0} duration={2} className="text-5xl font-bebas text-blackD" />
                   <h1 className='text-blackD text-2xl -mt-3'>rotaractors</h1>
               </div>
               <img src="/i2.png" alt="" />

@@ -12,7 +12,7 @@ const HomeFourth = () => {
       </div>
       <div className='lg:mt-15 mt-5 flex gap-5 justify-center'>
         <div className='h-[400px] w-[300px] bg-blackD rounded-xl hover:scale-101 lg:hover:scale-125 cursor-pointer relative lg:scale-120 '>
-            <img src="/Assembly.jpg" className='absolute top-0 left-0 object-cover w-[300px] h-[400px] rounded-xl' alt="" />
+            <img src="/dcm25.png" className='absolute top-0 left-0 object-cover w-[300px] h-[400px] rounded-xl' alt="" />
             <GlareHover
                 glareColor="#ffffff"
                 glareOpacity={0.3}
