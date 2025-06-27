@@ -7,9 +7,9 @@ const REPLICATE_MODEL =
 
 // Manual source name to URL mapping
 const SOURCE_URL_MAP = {
-  "constitution.pdf": "https://yourdocs.com/constitution.pdf",
-  "bylaws.pdf": "https://yourdocs.com/bylaws.pdf",
-  "Transition Meeting Protocol 2025-26.pdf": "https://yourdocs.com/transition-meeting-protocol-2025-26.pdf",
+  "Rotaract District Citation - RI Year 2025-26 (1) (1).pdf": "https://drive.google.com/file/d/1_vmzdS-dzoZB1232pUqlzFzGWnc8SYCo/view?usp=drive_link",
+  "Installation Ceremony Protocol 2025-26.pdf": "https://drive.google.com/file/d/1BJLIt_TFrO4Auwp2t1-dNxzj_JNZdG2n/view?usp=drive_link",
+  "Transition Meeting Protocol 2025-26.pdf": "https://drive.google.com/file/d/16WFanhedxwwc3_VZZePQh18b0RRxnEsX/view?usp=drive_link",
   // Add more source: url pairs here as needed
 };
 
@@ -42,6 +42,26 @@ function buildSourcesAndContext(matches) {
     }
   }
   return { contextChunks, sources };
+}
+
+// --- Keyword-based boosting for source filenames ---
+function findBestMatchBySource(matches, question) {
+  const q = question.toLowerCase();
+  const keywordToSource = [
+    { keyword: "citation", hint: "citation" },
+    { keyword: "installation", hint: "installation" },
+    { keyword: "transition", hint: "transition" },
+    // Add more as needed
+  ];
+  for (const { keyword, hint } of keywordToSource) {
+    if (q.includes(keyword)) {
+      const match = matches.find(
+        m => m.metadata?.source?.toLowerCase().includes(hint)
+      );
+      if (match) return match;
+    }
+  }
+  return null;
 }
 
 export async function POST(req) {
@@ -85,23 +105,15 @@ export async function POST(req) {
     const SCORE_THRESHOLD = 0.6;
     const filteredMatches = (results.matches || []).filter(match => match.score === undefined || match.score >= SCORE_THRESHOLD);
 
-    // Build sourceMarkdown
-    let sourceMarkdown = "";
-    if (results.matches && results.matches.length > 0) {
-      const top = results.matches[0].metadata;
-      if (top.source && top.url) {
-        sourceMarkdown = `[${top.source}](${top.url})`;
-      } else if (top.source) {
-        sourceMarkdown = top.source;
-      } else {
-        sourceMarkdown = "Unknown source";
-      }
-    } else {
-      sourceMarkdown = "No sources found";
+    // --- Keyword-based boosting ---
+    const bestKeywordMatch = findBestMatchBySource(filteredMatches, question);
+    let prioritizedMatches = filteredMatches;
+    if (bestKeywordMatch) {
+      prioritizedMatches = [bestKeywordMatch, ...filteredMatches.filter(m => m !== bestKeywordMatch)];
     }
 
     // Build context and sources using improved logic
-    const { contextChunks, sources } = buildSourcesAndContext(filteredMatches);
+    const { contextChunks, sources } = buildSourcesAndContext(prioritizedMatches);
     const context = contextChunks.join("\n\n---\n\n");
 
     // Only show the top unique source
@@ -121,6 +133,7 @@ export async function POST(req) {
 You are a helpful assistant answering questions about Rotaract Club documents.
 
 Use only the context below to answer. If multiple valid answers or lists exist (e.g., seating arrangements), show them clearly as separate options.
+Use the context below to answer as best as you can. If the answer is not clear, try to provide helpful guidance based on the context but only if you are confident.
 
 When you answer, do not cite the relevant source (if provided).
 At the end of your answer, include a section "Source" listing the top source with its link (as an clickable link/a tag).

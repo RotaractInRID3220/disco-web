@@ -9,11 +9,11 @@ const Footer = () => {
           <div className="w-full flex flex-col lg:flex-row items-center lg:justify-between justify-center">
             <img src="/LogoWhite.png" alt="" className="lg:w-64 w-52"/>
             <div className="flex gap-4 mt-5 lg:mt-0">
-                <a href="" className='border border-white text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-white hover:text-cranberry'><FaFacebookF size={20}/></a>
-                <a href="" className='border border-white text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-white hover:text-cranberry'><Instagram size={20}/></a>
-                <a href="" className='border border-white text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-white hover:text-cranberry'><FaLinkedinIn size={20}/></a>
-                <a href="" className='border border-white text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-white hover:text-cranberry'><FaYoutube size={20}/></a>
-                <a href="" className='border border-white text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-white hover:text-cranberry'><FaTiktok size={20}/></a>
+                <a href="https://facebook.com/rotaract3220" className='border border-white text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-white hover:text-cranberry'><FaFacebookF size={20}/></a>
+                {/* <a href="" className='border border-white text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-white hover:text-cranberry'><Instagram size={20}/></a> */}
+                <a href="https://www.linkedin.com/company/rotaract3220/" className='border border-white text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-white hover:text-cranberry'><FaLinkedinIn size={20}/></a>
+                <a href="https://www.youtube.com/@Rotaract3220" className='border border-white text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-white hover:text-cranberry'><FaYoutube size={20}/></a>
+                <a href="https://www.tiktok.com/@rotaract_3220" className='border border-white text-white w-10 h-10 rounded-full flex items-center justify-center hover:bg-white hover:text-cranberry'><FaTiktok size={20}/></a>
             </div>
           </div>
           <hr className="mt-5"/>
