@@ -83,12 +83,12 @@ export default function RootLayout({ children }) {
       >
         <Analytics />
         <SmoothScrollProvider>
-        {/* <div>
+        <div>
           <BotButton/>
         </div>
         <div className="z-60 fixed right-0 top-0">
           <ChatBot/>
-        </div> */}
+        </div>
         {children}
 
         </SmoothScrollProvider>

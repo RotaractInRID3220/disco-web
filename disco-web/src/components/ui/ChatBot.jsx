@@ -25,11 +25,39 @@ export default function ChatBot() {
   const messagesEndRef = useRef(null);
   const [botOpen, setBotOpen] = useAtom(botOpenAtom);
 
-
+  // Resizable width state
+  const minWidth = 350; // px, adjust as needed (matches lg:w-1/4 for most screens)
+  const [width, setWidth] = useState(minWidth);
+  const resizing = useRef(false);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  // Mouse event handlers for resizing
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      if (!resizing.current) return;
+      let newWidth = window.innerWidth - e.clientX;
+      if (newWidth < minWidth) newWidth = minWidth;
+      if (newWidth > window.innerWidth) newWidth = window.innerWidth;
+      setWidth(newWidth);
+    };
+    const handleMouseUp = () => {
+      resizing.current = false;
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mouseup", handleMouseUp);
+    return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mouseup", handleMouseUp);
+    };
+  }, []);
+
+  const startResize = (e) => {
+    e.preventDefault();
+    resizing.current = true;
+  };
 
   const sendMessage = async () => {
     if (!input.trim()) return;
@@ -65,7 +93,16 @@ export default function ChatBot() {
   };
 
   return (
-    <div className={`fixed right-0 lg:w-1/4 w-full h-screen m-auto p-5 ${botOpen ? "translate-x-0" : "translate-x-full"} bg-gray-100/80 backdrop-blur-md rounded-l-lg text-black transition-all duration-200 border-l-2 border-cranberry justify-center flex flex-col items-center`}>
+    <div
+      className={`fixed right-0 h-screen m-auto p-5 ${botOpen ? "translate-x-0" : "translate-x-full"} bg-gray-100/80 backdrop-blur-md rounded-l-lg text-black transition-all duration-200 border-l-2 border-cranberry justify-center flex flex-col items-center`}
+      style={{ width: width, minWidth: minWidth, maxWidth: "100vw" }}
+    >
+      {/* Drag handle for resizing */}
+      <div
+        style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: 8, cursor: "ew-resize", zIndex: 20 }}
+        onMouseDown={startResize}
+        aria-label="Resize chatbot"
+      />
       <div className="absolute top-5 left-5 text-cranberry cursor-pointer hover:text-cranberry/50" onClick={() => setBotOpen(false)}>
         <FaArrowRightFromBracket />
       </div>
@@ -108,7 +145,7 @@ export default function ChatBot() {
           onKeyDown={handleKeyDown}
           rows={1}
           placeholder="Type your question..."
-          className="flex rounded-l-lg p-4 border border-gray-300 focus:outline-none focus:border-blue-500 bg-white resize-none w-5/6"
+          className="flex rounded-l-lg p-4 border border-gray-300 focus:outline-none focus:border-blue-500 bg-white resize-none w-full"
           disabled={loading}
         />
         <button

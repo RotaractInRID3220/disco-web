@@ -1,135 +1,77 @@
-import Replicate from "replicate";
-import { Pinecone } from "@pinecone-database/pinecone";
+import RotaData from "../../data/rotadata.json";
 import { GoogleGenAI } from "@google/genai";
 
-const REPLICATE_MODEL =
-  "beautyyuyanli/multilingual-e5-large:a06276a89f1a902d5fc225a9ca32b6e8e6292b7f3b136518878da97c458e2bad";
+// Cosine similarity function
+function cosineSimilarity(a, b) {
+  let dot = 0, normA = 0, normB = 0;
+  for (let i = 0; i < a.length; ++i) {
+    dot += a[i] * b[i];
+    normA += a[i] * a[i];
+    normB += b[i] * b[i];
+  }
+  return dot / (Math.sqrt(normA) * Math.sqrt(normB));
+}
 
-// Manual source name to URL mapping
-const SOURCE_URL_MAP = {
-  "Rotaract District Citation - RI Year 2025-26 (1) (1).pdf": "https://drive.google.com/file/d/1_vmzdS-dzoZB1232pUqlzFzGWnc8SYCo/view?usp=drive_link",
-  "Installation Ceremony Protocol 2025-26.pdf": "https://drive.google.com/file/d/1BJLIt_TFrO4Auwp2t1-dNxzj_JNZdG2n/view?usp=drive_link",
+// Call Gemini text-embedding-004 model (updated to new API)
+async function getGeminiEmbedding(text) {
+  const ai = new GoogleGenAI({ apiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY });
+  const res = await ai.models.embedContent({
+    model: "text-embedding-004",
+    contents: text,
+    config: {
+      taskType: "SEMANTIC_SIMILARITY"
+    }
+  });
+  // The SDK's return shape may differ; adjust as needed
+  return res.embeddings?.[0]?.values || res.embedding?.values || res.embedding || res.data?.[0]?.embedding;
+}
+
+// PDF name to URL mapping
+const PDF_LINKS = {
   "Transition Meeting Protocol 2025-26.pdf": "https://drive.google.com/file/d/16WFanhedxwwc3_VZZePQh18b0RRxnEsX/view?usp=drive_link",
-  // Add more source: url pairs here as needed
+  // Add more mappings as needed
 };
 
-function isSimilar(a, b, threshold = 0.6) {
-  if (!a || !b) return false;
-  a = a.toLowerCase();
-  b = b.toLowerCase();
-  if (a === b) return true;
-  // Simple similarity: Jaccard index on words
-  const aWords = new Set(a.split(/\W+/));
-  const bWords = new Set(b.split(/\W+/));
-  const intersection = new Set([...aWords].filter(x => bWords.has(x)));
-  const union = new Set([...aWords, ...bWords]);
-  return intersection.size / union.size > threshold;
-}
-
-function buildSourcesAndContext(matches) {
-  const seen = [];
-  const contextChunks = [];
-  const sources = [];
-  for (const match of matches) {
-    const meta = match.metadata || {};
-    const text = (meta.chunk_text || "").trim();
-    const source = meta.source || "Unknown";
-    const url = SOURCE_URL_MAP[source] || null;
-    if (text && !seen.some(s => isSimilar(text, s))) {
-      seen.push(text);
-      contextChunks.push(`${source}\n${text}`);
-      sources.push({ source, url });
-    }
-  }
-  return { contextChunks, sources };
-}
-
-// --- Keyword-based boosting for source filenames ---
-function findBestMatchBySource(matches, question) {
-  const q = question.toLowerCase();
-  const keywordToSource = [
-    { keyword: "citation", hint: "citation" },
-    { keyword: "installation", hint: "installation" },
-    { keyword: "transition", hint: "transition" },
-    // Add more as needed
-  ];
-  for (const { keyword, hint } of keywordToSource) {
-    if (q.includes(keyword)) {
-      const match = matches.find(
-        m => m.metadata?.source?.toLowerCase().includes(hint)
-      );
-      if (match) return match;
-    }
-  }
-  return null;
-}
-
 export async function POST(req) {
+  const { question } = await req.json();
+  if (!question) {
+    return new Response(JSON.stringify({ error: "Missing question" }), {
+      status: 400,
+      headers: { "Content-Type": "application/json" },
+    });
+  }
+
+  // 1. Get query embedding
+  let queryEmbedding;
   try {
-    console.log("[RotaBot] Incoming request");
-    const body = await req.json();
-    const { question } = body;
-    if (!question) {
-      console.log("[RotaBot] Missing question");
-      return new Response(JSON.stringify({ error: "Missing question" }), { status: 400 });
-    }
-
-    // Get embedding from Replicate
-    console.log("[RotaBot] Getting embedding from Replicate");
-    const replicate = new Replicate({ auth: process.env.NEXT_PUBLIC_REPLICATE_API_TOKEN });
-    const embeddingOutput = await replicate.run(REPLICATE_MODEL, {
-      input: { text: "query: " + question },
+    queryEmbedding = await getGeminiEmbedding(question);
+  } catch (err) {
+    console.error("Error getting Gemini embedding", err);
+    return new Response(JSON.stringify({ error: "Embedding API error" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
     });
-    const embedding = Array.isArray(embeddingOutput)
-      ? embeddingOutput[0]
-      : embeddingOutput;
-    console.log("[RotaBot] Got embedding");
+  }
 
-    // Query Pinecone
-    console.log("[RotaBot] Querying Pinecone");
-    const pinecone = new Pinecone({ apiKey: process.env.NEXT_PUBLIC_PINECONE_API_KEY });
-    const index = pinecone.index("rotaract-docs");
-    const results = await index.query({
-      vector: embedding,
-      topK: 30, // increased for better recall
-      includeMetadata: true,
-    });
-    console.log("[RotaBot] Pinecone results", results);
-    if (results.matches && results.matches.length > 0) {
-      results.matches.forEach((match, idx) => {
-        console.log(`[RotaBot] Match ${idx} score:`, match.score, 'chunk_text:', match.metadata?.chunk_text);
-      });
-    }
+  // 2. Compute similarity against all sections
+  const scoredSections = RotaData
+    .filter(s => Array.isArray(s.embedding) && s.embedding.length === queryEmbedding.length)
+    .map(s => ({
+      ...s,
+      similarity: cosineSimilarity(queryEmbedding, s.embedding)
+    }))
+    .sort((a, b) => b.similarity - a.similarity);
 
-    // Filter matches by score threshold
-    const SCORE_THRESHOLD = 0.6;
-    const filteredMatches = (results.matches || []).filter(match => match.score === undefined || match.score >= SCORE_THRESHOLD);
+  const topSections = scoredSections.slice(0, 3);
 
-    // --- Keyword-based boosting ---
-    const bestKeywordMatch = findBestMatchBySource(filteredMatches, question);
-    let prioritizedMatches = filteredMatches;
-    if (bestKeywordMatch) {
-      prioritizedMatches = [bestKeywordMatch, ...filteredMatches.filter(m => m !== bestKeywordMatch)];
-    }
+  // 3. Build LLM context and prompt
+  const context = topSections.map(s => s.text).join("\n---\n");
+  const docUrl = topSections.length ? (PDF_LINKS[topSections[0].doc] || "#") : "#";
+  const sourcesMd = topSections.length
+    ? `[${topSections[0].section} (${topSections[0].doc}, p.${topSections[0].page})](${docUrl})`
+    : "";
 
-    // Build context and sources using improved logic
-    const { contextChunks, sources } = buildSourcesAndContext(prioritizedMatches);
-    const context = contextChunks.join("\n\n---\n\n");
-
-    // Only show the top unique source
-    const uniqueSources = [];
-    const seenSources = new Set();
-    for (const s of sources) {
-      if (!seenSources.has(s.source)) {
-        uniqueSources.push(s);
-        seenSources.add(s.source);
-      }
-    }
-    const singleSource = uniqueSources.slice(0, 1);
-    const sourcesMd = singleSource.map((src, i) => src.url ? `${i+1}. [${src.source}](${src.url})` : `${i+1}. ${src.source}`).join("\n");
-
-    // Compose prompt for Gemini
-    const prompt = `
+  const prompt = `
 You are a helpful assistant answering questions about Rotaract Club documents.
 
 Use only the context below to answer. If multiple valid answers or lists exist (e.g., seating arrangements), show them clearly as separate options.
@@ -140,48 +82,37 @@ At the end of your answer, include a section "Source" listing the top source wit
 
 If the context does not contain the answer, say: "Sorry, I don’t know the answer to that."
 
-Context:
+Context(only use this to answer) :
 ${context}
 
 Question:
 ${question}
 
-Source:
+PDF Link(this is the link to the top source, just return this along with the generated answer, hyperlink it so when clicked it opens the PDF) :
 ${sourcesMd}
 `;
-    //console.log("[RotaBot] Prompt sent to Gemini:", prompt);
 
-    // Call Gemini using @google/genai SDK
-    console.log("[RotaBot] Calling Gemini via @google/genai");
+  // 4. Call Gemini LLM for the answer
+  let answer = "Sorry, I couldn't generate an answer.";
+  try {
     const ai = new GoogleGenAI({ apiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY });
-    let answer = "Sorry, I couldn't generate an answer.";
-    try {
-      const response = await ai.models.generateContent({
-        model: "gemini-2.0-flash",
-        contents: prompt,
-      });
-      if (response && response.text) {
-        answer = response.text;
-        console.log("[RotaBot] Gemini response:", answer);
-      }
-    } catch (err) {
-      console.error("[RotaBot] Gemini SDK error", err);
-      return new Response(JSON.stringify({ error: "Gemini SDK error" }), {
-        status: 500,
-        headers: { "Content-Type": "application/json" },
-      });
-    }
-    console.log("[RotaBot] Gemini answer", answer);
-
-    return new Response(JSON.stringify({ answer }), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
+    const response = await ai.models.generateContent({
+      model: "gemini-2.0-flash",
+      contents: prompt
     });
+    if (response && response.text) {
+      answer = response.text;
+    }
   } catch (err) {
-    console.error("[RotaBot] Internal error", err);
-    return new Response(JSON.stringify({ error: "Internal server error" }), {
+    console.error("[RotaBot] Gemini SDK error", err);
+    return new Response(JSON.stringify({ error: "Gemini SDK error" }), {
       status: 500,
       headers: { "Content-Type": "application/json" },
     });
   }
+
+  return new Response(JSON.stringify({ answer }), {
+    status: 200,
+    headers: { "Content-Type": "application/json" },
+  });
 }
