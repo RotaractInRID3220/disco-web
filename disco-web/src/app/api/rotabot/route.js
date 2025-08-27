@@ -3,7 +3,13 @@ import { JWT } from 'google-auth-library';
 // Optional: Use Gemini API to improve formatting
 async function improveFormatting(text) {
   try {
-    const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=' + process.env.NEXT_PUBLIC_GOOGLE_API_KEY, {
+    const apiKey = process.env.GOOGLE_API_KEY || process.env.NEXT_PUBLIC_GOOGLE_API_KEY;
+    if (!apiKey) {
+      console.log('No Gemini API key found, skipping formatting');
+      return text;
+    }
+
+    const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=' + apiKey, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -36,30 +42,43 @@ function formatResponse(text) {
   // Clean and structure the response properly
   let formatted = text
     // First, split greeting from content
-    .replace(/(RotaBot.*?\.)\s*(The\s+program)/i, '$1\n\n$2')
+    .replace(/(RotaBot.*?today\?)\s*(The\s+program)/i, '$1\n\n$2')
     
     // Convert dashes to proper bullet points with line breaks
     .replace(/\s*-\s*/g, '\n• ')
+    
+    // Fix cases where bullet points are at the start
+    .replace(/^•\s*/, '')
     
     // Add proper spacing for sub-items (indented items)
     .replace(/•\s*(National Anthem|Flag Salutation|Rotaract Invocation|Rotary Four Way Test|Rotaract Song)/g, '  • $1')
     
     // Add section breaks before major sections
-    .replace(/•\s*(Rotaract Formalities)/g, '\n• $1')
+    .replace(/•\s*(Rotaract Formalities)/g, '\n\n• $1')
     
     // Clean up the document reference section
-    .replace(/•\s*(You can find more details)/g, '\n$1')
+    .replace(/•\s*(You can find more details)/g, '\n\n$1')
     
-    // Clean up multiple spaces
-    .replace(/\s+/g, ' ')
+    // Ensure proper spacing after periods before new sections
+    .replace(/\.\s*•/g, '.\n• ')
     
-    // Ensure proper line breaks
-    .replace(/\n\s*\n/g, '\n')
+    // Clean up multiple spaces but preserve intentional spacing
+    .replace(/[ \t]+/g, ' ')
     
-    // Clean up any leading bullets at start
-    .replace(/^\s*•\s*/, '')
+    // Ensure proper line breaks (but don't collapse intentional double breaks)
+    .replace(/\n{3,}/g, '\n\n')
     
+    // Clean up any leading/trailing whitespace
     .trim();
+
+  // Add proper formatting for lists
+  formatted = formatted
+    // Ensure consistent bullet formatting
+    .replace(/\n• /g, '\n• ')
+    // Add spacing between major sections
+    .replace(/(ceremony includes:)\n• /i, '$1\n\n• ')
+    // Fix document references
+    .replace(/(\w+)\s*\n\n(You can find)/g, '$1\n\n$2');
 
   return formatted;
 }
@@ -172,7 +191,9 @@ export async function POST(req) {
       answer = formatResponse(answer);
       
       // Optional: Use Gemini API for advanced formatting
-      if (process.env.NEXT_PUBLIC_USE_GEMINI_FORMATTING === 'true') {
+      const useGemini = process.env.USE_GEMINI_FORMATTING === 'true' || process.env.NEXT_PUBLIC_USE_GEMINI_FORMATTING === 'true';
+      if (useGemini) {
+        console.log('Using Gemini for post-processing formatting');
         answer = await improveFormatting(answer);
       }
     }
