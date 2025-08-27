@@ -17,9 +17,9 @@ async function improveFormatting(text) {
       body: JSON.stringify({
         contents: [{
           parts: [{
-            text: `Please reformat this text to be well-structured with proper bullet points, line breaks, and spacing. Keep all the original content but make it more readable:
+            text: `Please reformat (give back only the content with new formats and styles) this text to be well-structured with proper bullet points, line breaks, and spacing. Keep all the original content but make it more readable:
 
-${text}`
+            ${text}`
           }]
         }],
         generationConfig: {
