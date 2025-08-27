@@ -1,36 +1,68 @@
-import RotaData from "../../data/rotadata.json";
-import { GoogleGenAI } from "@google/genai";
+import { JWT } from 'google-auth-library';
 
-// Cosine similarity function
-function cosineSimilarity(a, b) {
-  let dot = 0, normA = 0, normB = 0;
-  for (let i = 0; i < a.length; ++i) {
-    dot += a[i] * b[i];
-    normA += a[i] * a[i];
-    normB += b[i] * b[i];
+// Optional: Use Gemini API to improve formatting
+async function improveFormatting(text) {
+  try {
+    const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=' + process.env.NEXT_PUBLIC_GOOGLE_API_KEY, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        contents: [{
+          parts: [{
+            text: `Please reformat this text to be well-structured with proper bullet points, line breaks, and spacing. Keep all the original content but make it more readable:
+
+${text}`
+          }]
+        }],
+        generationConfig: {
+          temperature: 0.1,
+          maxOutputTokens: 2000,
+        }
+      }),
+    });
+
+    const data = await response.json();
+    return data.candidates?.[0]?.content?.parts?.[0]?.text || text;
+  } catch (error) {
+    console.error('Gemini formatting error:', error);
+    return text; // Return original text if formatting fails
   }
-  return dot / (Math.sqrt(normA) * Math.sqrt(normB));
 }
 
-// Call Gemini text-embedding-004 model (updated to new API)
-async function getGeminiEmbedding(text) {
-  const ai = new GoogleGenAI({ apiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY });
-  const res = await ai.models.embedContent({
-    model: "text-embedding-004",
-    contents: text,
-    config: {
-      taskType: "SEMANTIC_SIMILARITY"
-    }
-  });
-  // The SDK's return shape may differ; adjust as needed
-  return res.embeddings?.[0]?.values || res.embedding?.values || res.embedding || res.data?.[0]?.embedding;
-}
+// Format response for better readability
+function formatResponse(text) {
+  // Clean and structure the response properly
+  let formatted = text
+    // First, split greeting from content
+    .replace(/(RotaBot.*?\.)\s*(The\s+program)/i, '$1\n\n$2')
+    
+    // Convert dashes to proper bullet points with line breaks
+    .replace(/\s*-\s*/g, '\n• ')
+    
+    // Add proper spacing for sub-items (indented items)
+    .replace(/•\s*(National Anthem|Flag Salutation|Rotaract Invocation|Rotary Four Way Test|Rotaract Song)/g, '  • $1')
+    
+    // Add section breaks before major sections
+    .replace(/•\s*(Rotaract Formalities)/g, '\n• $1')
+    
+    // Clean up the document reference section
+    .replace(/•\s*(You can find more details)/g, '\n$1')
+    
+    // Clean up multiple spaces
+    .replace(/\s+/g, ' ')
+    
+    // Ensure proper line breaks
+    .replace(/\n\s*\n/g, '\n')
+    
+    // Clean up any leading bullets at start
+    .replace(/^\s*•\s*/, '')
+    
+    .trim();
 
-// PDF name to URL mapping
-const PDF_LINKS = {
-  "Transition Meeting Protocol 2025-26.pdf": "https://drive.google.com/file/d/16WFanhedxwwc3_VZZePQh18b0RRxnEsX/view?usp=drive_link",
-  // Add more mappings as needed
-};
+  return formatted;
+}
 
 export async function POST(req) {
   const { question } = await req.json();
@@ -41,71 +73,112 @@ export async function POST(req) {
     });
   }
 
-  // 1. Get query embedding
-  let queryEmbedding;
-  try {
-    queryEmbedding = await getGeminiEmbedding(question);
-  } catch (err) {
-    console.error("Error getting Gemini embedding", err);
-    return new Response(JSON.stringify({ error: "Embedding API error" }), {
+  // Load service account credentials from environment
+  const clientEmail = process.env.NEXT_PUBLIC_CLIENT_EMAIL;
+  const privateKey = process.env.NEXT_PUBLIC_PRIVATE_KEY?.replace(/\\n/g, '\n');
+  const projectId = process.env.NEXT_PUBLIC_PROJECT_ID;
+  const agentId = process.env.NEXT_PUBLIC_AGENT_ID;
+  const location = process.env.NEXT_PUBLIC_LOCATION || 'global';
+
+  if (!clientEmail || !privateKey || !projectId || !agentId) {
+    return new Response(JSON.stringify({ error: "Missing Dialogflow CX credentials" }), {
       status: 500,
       headers: { "Content-Type": "application/json" },
     });
   }
 
-  // 2. Compute similarity against all sections
-  const scoredSections = RotaData
-    .filter(s => Array.isArray(s.embedding) && s.embedding.length === queryEmbedding.length)
-    .map(s => ({
-      ...s,
-      similarity: cosineSimilarity(queryEmbedding, s.embedding)
-    }))
-    .sort((a, b) => b.similarity - a.similarity);
+  // Authenticate with Google
+  const auth = new JWT({
+    email: clientEmail,
+    key: privateKey,
+    scopes: ['https://www.googleapis.com/auth/cloud-platform']
+  });
 
-  const topSections = scoredSections.slice(0, 3);
-
-  // 3. Build LLM context and prompt
-  const context = topSections.map(s => s.text).join("\n---\n");
-  const docUrl = topSections.length ? (PDF_LINKS[topSections[0].doc] || "#") : "#";
-  const sourcesMd = topSections.length
-    ? `[${topSections[0].section} (${topSections[0].doc}, p.${topSections[0].page})](${docUrl})`
-    : "";
-
-  const prompt = `
-You are a helpful assistant answering questions about Rotaract Club documents.
-
-Use only the context below to answer. If multiple valid answers or lists exist (e.g., seating arrangements), show them clearly as separate options.
-Use the context below to answer as best as you can. If the answer is not clear, try to provide helpful guidance based on the context but only if you are confident.
-
-When you answer, do not cite the relevant source (if provided).
-At the end of your answer, include a section "Source" listing the top source with its link (as an clickable link/a tag).
-
-If the context does not contain the answer, say: "Sorry, I don’t know the answer to that."
-
-Context(only use this to answer) :
-${context}
-
-Question:
-${question}
-
-PDF Link(this is the link to the top source, just return this along with the generated answer, hyperlink it so when clicked it opens the PDF) :
-${sourcesMd}
-`;
-
-  // 4. Call Gemini LLM for the answer
-  let answer = "Sorry, I couldn't generate an answer.";
+  let accessToken;
   try {
-    const ai = new GoogleGenAI({ apiKey: process.env.NEXT_PUBLIC_GOOGLE_API_KEY });
-    const response = await ai.models.generateContent({
-      model: "gemini-2.0-flash",
-      contents: prompt
+    const tokens = await auth.authorize();
+    accessToken = tokens.access_token;
+  } catch (err) {
+    console.error("Dialogflow CX Auth error", err);
+    return new Response(JSON.stringify({ error: "Dialogflow CX Auth error" }), {
+      status: 500,
+      headers: { "Content-Type": "application/json" },
     });
-    if (response && response.text) {
-      answer = response.text;
+  }
+
+  // Build Dialogflow CX detectIntent endpoint
+  const sessionId = Math.random().toString(36).substring(2); // random session
+  const url = `https://dialogflow.googleapis.com/v3/projects/${projectId}/locations/${location}/agents/${agentId}/sessions/${sessionId}:detectIntent`;
+
+  // Prepare request body
+  const body = {
+    queryInput: {
+      text: {
+        text: question,
+      },
+      languageCode: 'en',
+    },
+  };
+
+  // Call Dialogflow CX
+  let answer = "Sorry, I couldn't get a response.";
+  try {
+    const resp = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${accessToken}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    });
+    const data = await resp.json();
+    
+    // Try different approaches to get the full response
+    let fullResponse = '';
+    
+    // Approach 1: Get from queryResult.responseMessages
+    if (data.queryResult?.responseMessages) {
+      const allTexts = [];
+      data.queryResult.responseMessages.forEach(message => {
+        if (message.text?.text) {
+          allTexts.push(...message.text.text);
+        }
+      });
+      fullResponse = allTexts.join(' ').trim();
+    }
+    
+    // Approach 2: Check if there's a fulfillmentText
+    if (!fullResponse && data.queryResult?.fulfillmentText) {
+      fullResponse = data.queryResult.fulfillmentText;
+    }
+    
+    // Approach 3: Check for webhookPayload or other response formats
+    if (!fullResponse && data.queryResult?.fulfillmentMessages) {
+      const allTexts = [];
+      data.queryResult.fulfillmentMessages.forEach(message => {
+        if (message.text?.text) {
+          allTexts.push(...message.text.text);
+        } else if (message.payload?.text) {
+          allTexts.push(message.payload.text);
+        }
+      });
+      fullResponse = allTexts.join(' ').trim();
+    }
+    
+    if (fullResponse) {
+      answer = fullResponse;
+      
+      // Format the response for better readability
+      answer = formatResponse(answer);
+      
+      // Optional: Use Gemini API for advanced formatting
+      if (process.env.NEXT_PUBLIC_USE_GEMINI_FORMATTING === 'true') {
+        answer = await improveFormatting(answer);
+      }
     }
   } catch (err) {
-    console.error("[RotaBot] Gemini SDK error", err);
-    return new Response(JSON.stringify({ error: "Gemini SDK error" }), {
+    console.error("Dialogflow CX API error", err);
+    return new Response(JSON.stringify({ error: "Dialogflow CX API error" }), {
       status: 500,
       headers: { "Content-Type": "application/json" },
     });
