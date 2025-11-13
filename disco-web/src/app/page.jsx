@@ -11,7 +11,7 @@ import Image from "next/image";
 export default function Home() {
   return (
     <div className="">
-      <div className="fixed top-0 left-0 right-0 z-50">
+      <div className="fixed top-0 left-0 right-0 z-40">
         <Navbar />
       </div>
       <div className="w-full ">

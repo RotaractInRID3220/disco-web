@@ -1,9 +1,11 @@
 import { Bebas_Neue, Poppins } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import SmoothScrollProvider from "@/lib/smoothScroll";
 import { Analytics } from "@vercel/analytics/next"
 import ChatBot from "@/components/ui/ChatBot";
 import BotButton from "@/components/ui/BotButton";
+import SessionPopup from "@/components/ui/SessionPopup";
 
 
 const bebas = Bebas_Neue({
@@ -78,10 +80,25 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <head>
+        {/* Google Analytics */}
+        <Script async src="https://www.googletagmanager.com/gtag/js?id=G-8HQWMQSRYK" />
+        <Script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-8HQWMQSRYK');
+            `,
+          }}
+        />
+      </head>
       <body
         className={`${bebas.variable} ${poppins.variable} antialiased`}
       >
         <Analytics />
+        <SessionPopup />
         <SmoothScrollProvider>
         {/* <div>
           <BotButton/>
