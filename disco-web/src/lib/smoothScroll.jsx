@@ -19,7 +19,7 @@ function SmoothScrollProvider({ children }) {
     return () => lenis.destroy()
   }, [])
 
-  return children
+  return <>{children}</>
 }
 
 export default SmoothScrollProvider
