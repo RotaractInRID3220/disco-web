@@ -20,7 +20,7 @@ const Footer = () => {
             <div className="w-full flex flex-col lg:flex-row items-center lg:justify-between mt-5">
                 <p className='text-white text-sm'>© 2025 Rotaract in RID 3220. All rights reserved.</p>
                 <p className="text-xs md:text-sm text-white">
-                    Designed & Developed by <span className='animate-gradient font-bold bg-gradient-to-r bg-clip-text text-transparent from-[#22D1AE] via-[#EAEAEA] to-[#22D1AE]'><a href="https://www.linkedin.com/company/wizx-solutions/posts/?feedView=all">WizX Solutions</a></span>
+                    Designed & Developed by <span className='animate-gradient font-bold bg-gradient-to-r bg-clip-text text-transparent from-[#22D1AE] via-[#EAEAEA] to-[#22D1AE]'><a href="https://www.instagram.com/code.techghost_/">Code.Techghost</a></span>
                 </p>
             </div>
 
