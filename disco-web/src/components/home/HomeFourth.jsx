@@ -11,9 +11,8 @@ const HomeFourth = () => {
         <a href="" className='flex absolute lg:top-5 lg:right-5 top-3 right-3 items-center w-8 h-8 border-2 border-white text-white rounded-full text-center justify-center hover:bg-white hover:text-cranberry'><CircleArrowOutUpRight size={18} /></a>
       </div>
       <div className='lg:mt-15 mt-5 flex gap-5 justify-center'>
-        <a href="https://srilankafitnessexpo.lk/events/community-run" target="_blank" rel="noopener noreferrer">
           <div className='h-[400px] w-[300px] bg-blackD rounded-xl hover:scale-101 lg:hover:scale-125 cursor-pointer relative lg:scale-120 '>
-              <img src="/Run.jpg" className='absolute top-0 left-0 object-cover w-[300px] h-[400px] rounded-xl' alt="" />
+              <img src="/RDC.jpeg" className='absolute top-0 left-0 object-cover w-[300px] h-[400px] rounded-xl' alt="" />
               <GlareHover
                   glareColor="#ffffff"
                   glareOpacity={0.3}
@@ -23,7 +22,6 @@ const HomeFourth = () => {
                   playOnce={false}
               ></GlareHover>
           </div>
-        </a>
         {/* <div className='h-[500px] w-[400px] bg-blackD rounded-xl hover:scale-101 cursor-pointer'></div>
         <div className='h-[500px] w-[400px] bg-blackD rounded-xl hover:scale-101 cursor-pointer'></div> */}
       </div>

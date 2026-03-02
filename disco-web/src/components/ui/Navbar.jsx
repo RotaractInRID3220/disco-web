@@ -16,6 +16,7 @@ const Navbar = () => {
         <Link href="/about" className='hover:text-cranberry border-b-2 border-transparent hover:border-cranberry'>about us</Link>
         <a href="/portal" className='hover:text-cranberry border-b-2 border-transparent hover:border-cranberry'>district portal</a>
         <a href="/events" className='hover:text-cranberry border-b-2 border-transparent hover:border-cranberry'>events</a>
+        <a href="/newsletter" className='hover:text-cranberry border-b-2 border-transparent hover:border-cranberry'>newsletter</a>
         <a href="/contact" className='hover:text-cranberry border-b-2 border-transparent hover:border-cranberry'>contact us</a>
       </div>
       <a href="https://blog.rotaract3220.org/" className='text-cranberry font-poppins text-lg flex items-center gap-1 hover:text-cranberry/70'>
@@ -32,6 +33,7 @@ const Navbar = () => {
         <Link href="/about" >about us</Link>
         <a href="/portal" >district portal</a>
         <a href="/events" >events</a>
+        <a href="/newsletter" >newsletter</a>
         <a href="/contact" >contact us</a>
               <a href="https://blog.rotaract3220.org/" className='text-white font-poppins text-lg flex items-center gap-1 hover:text-cranberry/70 border border-white px-16 rounded-full py-2'>
         blog
