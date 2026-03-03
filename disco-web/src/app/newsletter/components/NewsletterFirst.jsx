@@ -33,7 +33,7 @@ const NewsletterFirst = () => {
             allow="clipboard-write"
             scrolling="no"
             className="w-full h-full"
-            src="https://heyzine.com/flip-book/1bfb3b5769.html"
+            src="https://heyzine.com/flip-book/1139c8797b.html"
             style={{ border: 'none' }}
           />
         </div>
