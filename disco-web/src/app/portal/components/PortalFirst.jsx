@@ -18,11 +18,11 @@ const PortalFirst = () => {
         <h1 className="text-5xl text-cranberry font-bebas tracking-wide">District Directory</h1>
         <p className="mt-4">Find contact details for District 3220 officials—from the Steering Committee to JDRCs and individual club directories.</p>
         <div className='grid lg:grid-cols-2 gap-2 mt-5 text-sm text-cranberry'>
-            <a href="https://docs.google.com/spreadsheets/d/1M-eGpd71CXRmLJYXCuMjTdmeF7K5hLvOVNUv1NsW-7c/edit?gid=1117188337#gid=1117188337&range=A1:H1" className="border rounded-lg border-gray-300 px-5 py-3 hover:bg-cranberry hover:text-white hover:border-cranberry transition-all ">Rotaract Club Directory</a>
-            <a href="https://docs.google.com/spreadsheets/d/1M-eGpd71CXRmLJYXCuMjTdmeF7K5hLvOVNUv1NsW-7c/edit?gid=524609655#gid=524609655&range=A1:H1" className="border rounded-lg border-gray-300 px-5 py-3 hover:bg-cranberry hover:text-white hover:border-cranberry transition-all ">Rotaract District Steering Committee</a>
-            <a href="https://docs.google.com/spreadsheets/d/1M-eGpd71CXRmLJYXCuMjTdmeF7K5hLvOVNUv1NsW-7c/edit?gid=1891133460#gid=1891133460&range=A1:H1" className="border rounded-lg border-gray-300 px-5 py-3 hover:bg-cranberry hover:text-white hover:border-cranberry transition-all ">Guide Club Coordinators</a>
+            <a href="https://docs.google.com/spreadsheets/d/1ga1BsjYv0tmvRiDiHhUUCSv13D9-dV1T2dv7iZLPJ34/edit?gid=1258934544#gid=1258934544&range=A1:H1" className="border rounded-lg border-gray-300 px-5 py-3 hover:bg-cranberry hover:text-white hover:border-cranberry transition-all ">Rotaract Club Directory</a>
+            <a href="https://docs.google.com/spreadsheets/d/1ga1BsjYv0tmvRiDiHhUUCSv13D9-dV1T2dv7iZLPJ34/edit?gid=56452064#gid=56452064&range=A1:I1" className="border rounded-lg border-gray-300 px-5 py-3 hover:bg-cranberry hover:text-white hover:border-cranberry transition-all ">Rotaract District Steering Committee</a>
+            <a href="https://docs.google.com/spreadsheets/d/1ga1BsjYv0tmvRiDiHhUUCSv13D9-dV1T2dv7iZLPJ34/edit?gid=232315418#gid=232315418&range=A1:E1" className="border rounded-lg border-gray-300 px-5 py-3 hover:bg-cranberry hover:text-white hover:border-cranberry transition-all ">Guide Club Coordinators</a>
             {/* <a href="#" className="border rounded-lg border-gray-300 px-5 py-3 hover:bg-cranberry hover:text-white hover:border-cranberry transition-all ">JDRC</a> */}
-            <a href="https://docs.google.com/spreadsheets/d/1M-eGpd71CXRmLJYXCuMjTdmeF7K5hLvOVNUv1NsW-7c/edit?gid=1891133460#gid=1891133460&range=A1:H1" className="border rounded-lg border-gray-300 px-5 py-3 hover:bg-cranberry hover:text-white hover:border-cranberry transition-all ">Zone Allocation</a>
+            <a href="https://docs.google.com/spreadsheets/d/1ga1BsjYv0tmvRiDiHhUUCSv13D9-dV1T2dv7iZLPJ34/edit?gid=232315418#gid=232315418&range=A1:E1" className="border rounded-lg border-gray-300 px-5 py-3 hover:bg-cranberry hover:text-white hover:border-cranberry transition-all ">Zone Allocation</a>
         </div>
       </div>
 
