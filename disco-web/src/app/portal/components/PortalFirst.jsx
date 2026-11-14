@@ -8,7 +8,7 @@ const PortalFirst = () => {
         <p className="mt-4">Essential administrative documents for Rotaract clubs, including policies, code of conduct, constitution, and recommended bylaws.</p>
         <div className='grid lg:grid-cols-2 gap-2 mt-5 text-sm text-cranberry'>
           <a href="https://drive.google.com/file/d/1UwFa2VE5UDt3Qe3EjytWETXc5T5U6c98/view?usp=sharing" className="border rounded-lg border-gray-300 px-5 py-3 hover:bg-cranberry hover:text-white hover:border-cranberry transition-all ">Rotaract District Administrative Policies</a>
-          <a href="https://drive.google.com/file/d/1UdxjcoHS_1QZjqGGGCXsW-bvB_Z5IjcX/view?usp=sharing" className="border rounded-lg border-gray-300 px-5 py-3 hover:bg-cranberry hover:text-white hover:border-cranberry transition-all ">Rotaract Code of Conduct</a>
+          <a href="https://drive.google.com/drive/folders/1gnOIqS5MHzXOiGSJULRFCiMTvUkm3KJO?usp=sharing" className="border rounded-lg border-gray-300 px-5 py-3 hover:bg-cranberry hover:text-white hover:border-cranberry transition-all ">Rotaract Code of Conduct</a>
           <a href="https://drive.google.com/file/d/1wyk7QUTxVTDMYxBBGg7FZad3GUCQ-orn/view?usp=drive_link" className="border rounded-lg border-gray-300 px-5 py-3 hover:bg-cranberry hover:text-white hover:border-cranberry transition-all ">Standard Rotaract Club Constitution</a>
           <a href="https://drive.google.com/file/d/1lNRUcJsJ592VsSMYc2R4trztoVQS6R7C/view?usp=drive_link" className="border rounded-lg border-gray-300 px-5 py-3 hover:bg-cranberry hover:text-white hover:border-cranberry transition-all ">Recommended club By Laws</a>
         </div>
